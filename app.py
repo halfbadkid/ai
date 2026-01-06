@@ -101,10 +101,24 @@ with st.form("loan_form"):
     cred_hist_length = st.text_input("Credit History Length (years)", placeholder="e.g. 5")
     historical_default = st.selectbox("Historical Default", ["NO", "Unknown", "YES"])
     loan_amnt = st.number_input("Loan Amount", min_value=0, value=0)
-    loan_int_rate = st.slider("Interest Rate (%)", 0.0, 15.0, 7.5) # Restricted to 0-15%
-    term_years = st.selectbox("Loan Term (years)", list(range(1, 11))) # Restricted to 1-10
-    loan_intent = st.selectbox("Loan Intent", ["DEBTCONSOLIDATION", "EDUCATION", "HOMEIMPROVEMENT", "MEDICAL", "PERSONAL"])
-    loan_grade = st.selectbox("Loan Grade", ["A", "B", "C", "D", "E"])
+    loan_int_rate = st.slider("Interest Rate (%)", 3.0, 15.0, 7.5)
+    term_years = st.selectbox("Loan Term (years)", list(range(1, 11)))
+
+    loan_intent = st.selectbox("Loan Intent", [
+        "Debt Consolidation",
+        "Education",
+        "Home Improvement",
+        "Medical",
+        "Personal"
+    ])
+
+    loan_grade = st.selectbox("Loan Grade", [
+        "Grade A: Lowest Risk",
+        "Grade B: Low Risk",
+        "Grade C: Moderate Risk",
+        "Grade D: High Risk",
+        "Grade E: Highest Risk"
+    ])
 
     submit = st.form_submit_button("Check Eligibility")
 
@@ -114,8 +128,20 @@ if submit:
     else:
         try:
             hist_map = {"NO": 0, "Unknown": 1, "YES": 2}
-            intent_map = {"DEBTCONSOLIDATION": 0, "EDUCATION": 1, "HOMEIMPROVEMENT": 2, "MEDICAL": 3, "PERSONAL": 4}
-            grade_map = {"A": 0, "B": 1, "C": 2, "D": 3, "E": 4}
+            intent_map = {
+                "Debt Consolidation": 0,
+                "Education": 1,
+                "Home Improvement": 2,
+                "Medical": 3,
+                "Personal": 4
+            }
+            grade_map = {
+                "Grade A: Lowest Risk": 0,
+                "Grade B: Low Risk": 1,
+                "Grade C: Moderate Risk": 2,
+                "Grade D: High Risk": 3,
+                "Grade E: Highest Risk": 4
+            }
 
             user_df = pd.DataFrame([{
                 "customer_age": customer_age,
